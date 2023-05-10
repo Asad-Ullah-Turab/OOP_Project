@@ -145,7 +145,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Frog.cpp" />
+    <ClCompile Include="Global.cpp" />
     <ClCompile Include="OOP_Project.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Frog.h" />
+    <ClInclude Include="Global.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

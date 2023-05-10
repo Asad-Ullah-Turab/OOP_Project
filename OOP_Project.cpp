@@ -4,6 +4,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
+#include "Frog.h"
 
 using namespace sf;
 using namespace std;
@@ -14,6 +15,10 @@ int main()
     RenderWindow window(VideoMode(800, 600), "OOP Project", Style::Default);
     window.setFramerateLimit(30);
 
+    int KeyCooldown = 5;
+    int KeyTimer = 0;
+    // Gameobjects Initialization
+    Frog player;
     // Main game loop
     while (window.isOpen())
     {
@@ -25,12 +30,26 @@ int main()
         }
 
         // Update
+        // player movement control
+        if (Keyboard::isKeyPressed(Keyboard::Up) && KeyTimer >= KeyCooldown)
+        {
+            player.MoveUp();
+            KeyTimer = 0;
+        }
+        else if (Keyboard::isKeyPressed(Keyboard::Down) && KeyTimer >= KeyCooldown)
+        {
+            player.MoveDown();
+            KeyTimer = 0;
+        }
+        else
+            KeyTimer++;
+            
 
         // Clear
         window.clear();
 
         // Draw Stuff
-
+        player.Draw(window);
         // Display
         window.display();
     }
