@@ -15,10 +15,13 @@ int main()
     RenderWindow window(VideoMode(800, 600), "OOP Project", Style::Default);
     window.setFramerateLimit(30);
 
+    // player movement sport
     int KeyCooldown = 5;
     int KeyTimer = 0;
+
     // Gameobjects Initialization
     Frog player;
+
     // Main game loop
     while (window.isOpen())
     {
@@ -30,6 +33,7 @@ int main()
         }
 
         // Update
+
         // player movement control
         if (Keyboard::isKeyPressed(Keyboard::Up) && KeyTimer >= KeyCooldown)
         {
@@ -39,6 +43,16 @@ int main()
         else if (Keyboard::isKeyPressed(Keyboard::Down) && KeyTimer >= KeyCooldown)
         {
             player.MoveDown();
+            KeyTimer = 0;
+        }
+        else if (Keyboard::isKeyPressed(Keyboard::Left) && KeyTimer >= KeyCooldown)
+        {
+            player.MoveLeft();
+            KeyTimer = 0;
+        }
+        else if (Keyboard::isKeyPressed(Keyboard::Right) && KeyTimer >= KeyCooldown)
+        {
+            player.MoveRight();
             KeyTimer = 0;
         }
         else
