@@ -12,12 +12,15 @@ private:
 	Sprite sprite;
 	Texture texture;
 	RenderWindow& window;
+	
 public:
+	IntRect texRect;
 	Frog(RenderWindow& window);
 	void MoveUp();
 	void MoveDown();
 	void MoveLeft();
 	void MoveRight();
+	void Move(int x, int y);
 	void Draw();
 	void Reset();
 };
