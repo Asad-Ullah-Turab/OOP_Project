@@ -2,11 +2,12 @@
 #include "Global.h"
 #include <iostream>
 
-Frog::Frog()
+Frog::Frog(RenderWindow& window) : window(window)
 {
 	Reset();
 }
-void Frog::Draw(RenderWindow &window)
+
+void Frog::Draw()
 {
 	window.draw(sprite);
 }

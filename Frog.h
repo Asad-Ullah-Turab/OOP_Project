@@ -11,14 +11,14 @@ class Frog
 private:
 	Sprite sprite;
 	Texture texture;
+	RenderWindow& window;
 public:
-	Frog();
-
+	Frog(RenderWindow& window);
 	void MoveUp();
 	void MoveDown();
 	void MoveLeft();
 	void MoveRight();
-	void Draw(RenderWindow &window);
+	void Draw();
 	void Reset();
 };
 

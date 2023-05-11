@@ -20,7 +20,7 @@ int main()
     int KeyTimer = 0;
 
     // Gameobjects Initialization
-    Frog player;
+    Frog player(window);
 
     // Main game loop
     while (window.isOpen())
@@ -63,7 +63,7 @@ int main()
         window.clear();
 
         // Draw Stuff
-        player.Draw(window);
+        player.Draw();
         // Display
         window.display();
     }
