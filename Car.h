@@ -13,12 +13,12 @@ private:
 	int direction;
 	int startingPos;
 	Sprite sprite;
-	Texture texture;
+	Texture* texture;
 	IntRect texRect;
 	int laneNo;
 	float speed = 5;
 public:
-	Car(int type, int direction, int laneNo);
+	Car(int type, int laneNo);
 	Sprite getSprite() { return sprite; }
 	void SetTexRect();
 	void Initialize();

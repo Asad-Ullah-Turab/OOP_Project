@@ -7,10 +7,9 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 
-Car::Car(int type, int direction, int laneNo)
+Car::Car(int type, int laneNo)
 {
 	this->type = type;
-	this->direction = direction;
 	this->laneNo = laneNo;
 	Initialize();
 	SetLane();
@@ -31,20 +30,23 @@ void Car::SetTexRect()
 }
 void Car::Initialize()
 {
-	texture.loadFromFile("Resources/Images/Cars.png");
+	texture = new Texture;
+	texture->loadFromFile("Resources/Images/Cars.png");
 	SetTexRect();
-	sprite.setTexture(texture);
+	sprite.setTexture(*texture);
 	sprite.setTextureRect(texRect);
 	sprite.setScale(Vector2f(4, 4));
 }
 void Car::SetLane()
 {
-	if (direction == 1)
+	if (laneNo %2 == 0)
 	{
+		direction = 1;
 		sprite.setPosition(Vector2f(sprite.getPosition().x - sprite.getGlobalBounds().width, laneNo * LANE_HEIGHT + TOP_BOUND));
 	}
-	else if (direction == -1)
+	else if (laneNo %2 == 1)
 	{
+		direction = -1;
 		sprite.setScale(Vector2f(sprite.getScale().x * -1, sprite.getScale().y));
 		sprite.setPosition(Vector2f(sprite.getPosition().x + WINDOW_WIDTH + sprite.getGlobalBounds().width, laneNo * LANE_HEIGHT + TOP_BOUND));
 	}
