@@ -12,7 +12,6 @@ private:
 	Sprite sprite;
 	Texture texture;
 	RenderWindow& window;
-	
 public:
 	IntRect texRect;
 	Frog(RenderWindow& window);

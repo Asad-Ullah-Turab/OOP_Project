@@ -6,6 +6,7 @@
 #include <SFML/Network.hpp>
 #include "Frog.h"
 #include "Global.h"
+#include "Car.h"
 
 using namespace sf;
 using namespace std;
@@ -18,6 +19,12 @@ int main()
 
     // Gameobjects Initialization
     Frog player(window);
+    Car car1(0, 1, 0);
+    Car car2(1, -1, 1);
+    Car car3(2, 1, 2);
+    Car car4(3, -1, 3);
+    Car car5(4, 1, 4);
+    Car car6(5, -1, 5);
 
     // player movement sport
     int KeyCooldown = 5;
@@ -74,14 +81,28 @@ int main()
             KeyTimer = 0;
         }
         else
+        {
             KeyTimer++;
-            
+        }
+           
 
+        car1.Move();
+        car2.Move();
+        car3.Move();
+        car4.Move();
+        car5.Move();
+        car6.Move();
         // Clear
         window.clear();
 
         // Draw Stuff
         player.Draw();
+        window.draw(car1.getSprite());
+        window.draw(car2.getSprite());
+        window.draw(car3.getSprite());
+        window.draw(car4.getSprite());
+        window.draw(car5.getSprite());
+        window.draw(car6.getSprite());
         // Display
         window.display();
     }

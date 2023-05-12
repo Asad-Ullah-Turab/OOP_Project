@@ -26,8 +26,6 @@ void Frog::MoveUp()
 	texRect.left = 0;
 	texRect.top = CELL_SIZE;
 	sprite.move(Vector2f(0.f, -LANE_HEIGHT));
-	
-		
 }
 void Frog::MoveDown()
 {
