@@ -8,11 +8,13 @@
 #include "Frog.h"
 #include "Global.h"
 #include "Car.h"
+#include "Log.h"
 
 using namespace sf;
 using namespace std;
 
 void CarSpawner(int& carSpawnTimer, int& carSpawnCooldown, vector<Car>& cars);
+void LogSpawner(int& logSpawnTimer, int& logSpawnCooldown, vector<Log>& logs);
 
 int main()
 {
@@ -37,6 +39,10 @@ int main()
     vector<Car> cars;
     int carSpawnCooldown = 20;
     int carSpawnTimer = 0;
+    // Log spawner support
+    vector<Log> logs;
+    int logSpawnCooldown = 20;
+    int logSpawnTimer = 0;
 
     // Main game loop
     while (window.isOpen())
@@ -50,6 +56,7 @@ int main()
 
         // Update
         player.texRect = texRect;
+
         // player movement control
         if (Keyboard::isKeyPressed(Keyboard::Up) && KeyTimer >= KeyCooldown)
         {
@@ -92,12 +99,20 @@ int main()
             KeyTimer++;
         }
         CarSpawner(carSpawnTimer, carSpawnCooldown, cars);
+        LogSpawner(logSpawnTimer, logSpawnCooldown, logs);
         // Clear
         window.clear();
 
         // Draw Stuff
         window.draw(backgroundSprite);
+        // drawing logs
+        for (int i = 0; i < logs.size(); i++)
+        {
+            logs[i].Move();
+            window.draw(logs[i].getSprite());
+        }
         player.Draw();
+        // drawing cars
         for (int i = 0; i < cars.size(); i++)
         {
             cars[i].Move();
@@ -117,6 +132,31 @@ void CarSpawner(int& carSpawnTimer, int& carSpawnCooldown, vector<Car>& cars)
     }
     carSpawnTimer = 0;
     int randomCarType = rand() % 6;
-    int randomLane = (rand() % 7) + 1;
+    int randomLane = (rand() % 4) + 4;
     cars.push_back(Car(randomCarType, randomLane));
+}
+void LogSpawner(int& logSpawnTimer, int& logSpawnCooldown, vector<Log>& logs)
+{
+    if (logSpawnTimer < logSpawnCooldown)
+    {
+		logSpawnTimer++;
+		return;
+	}
+	logSpawnTimer = 0;
+	int randomLogType = rand() % 3;
+	int randomLane = rand() % 4;
+    // collision free spawning
+    if (logs.size() > 0)
+    {
+        int tries = 0;
+        while (Log(randomLogType, randomLane).getSprite().getGlobalBounds().intersects(logs.back().getSprite().getGlobalBounds()) && tries < 4)
+        {
+            if (randomLane == 3)
+                randomLane = 0;
+            else
+                randomLane++;
+            tries++;
+        }
+    }
+	logs.push_back(Log(randomLogType, randomLane));
 }
