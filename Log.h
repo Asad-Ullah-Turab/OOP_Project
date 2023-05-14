@@ -10,14 +10,14 @@ class Log
 {
 private:
 	int type;
-	int direction;
 	int startingPos;
 	Sprite sprite;
 	Texture* texture;
 	IntRect texRect;
 	int laneNo;
-	float speed = 5;
 public:
+	int direction;
+	float speed = 5;
 	Log(int type, int laneNo);
 	Sprite getSprite() { return sprite; }
 	void SetTexRect();

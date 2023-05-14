@@ -60,3 +60,11 @@ void Frog::Move(int x, int y)
 	if (sprite.getPosition().x > RIGHT_BOUND)
 		sprite.setPosition(WINDOW_WIDTH - LEFT_BOUND - sprite.getGlobalBounds().width, sprite.getPosition().y);
 }
+void Frog::MoveWithLog(Log log)
+{
+	sprite.move(Vector2f(log.speed * log.direction , 0));
+	if (sprite.getPosition().x < LEFT_BOUND)
+		sprite.setPosition(LEFT_BOUND, sprite.getPosition().y);
+	if (sprite.getPosition().x > RIGHT_BOUND)
+		sprite.setPosition(RIGHT_BOUND, sprite.getPosition().y);
+}

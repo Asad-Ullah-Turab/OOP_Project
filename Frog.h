@@ -4,6 +4,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
+#include "Log.h"
 
 using namespace sf;
 class Frog
@@ -15,6 +16,7 @@ private:
 public:
 	IntRect texRect;
 	Frog(RenderWindow& window);
+	Sprite getSprite(){ return sprite;}
 	void MoveUp();
 	void MoveDown();
 	void MoveLeft();
@@ -22,5 +24,6 @@ public:
 	void Move(int x, int y);
 	void Draw();
 	void Reset();
+	void MoveWithLog(Log log);
 };
 
