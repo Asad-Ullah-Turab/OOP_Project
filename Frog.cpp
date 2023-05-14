@@ -54,7 +54,7 @@ void Frog::Move(int x, int y)
 	if (sprite.getPosition().y < 88)
 		sprite.setPosition(sprite.getPosition().x, TOP_BOUND + CELL_SIZE);
 	if (sprite.getPosition().y + sprite.getGlobalBounds().height > WINDOW_HEIGHT)
-		sprite.setPosition(sprite.getPosition().x, WINDOW_HEIGHT - sprite.getGlobalBounds().height);
+		sprite.setPosition(sprite.getPosition().x, WINDOW_HEIGHT - sprite.getGlobalBounds().height - CELL_SIZE);
 	if (sprite.getPosition().x < LEFT_BOUND)
 		sprite.setPosition(LEFT_BOUND, sprite.getPosition().y);
 	if (sprite.getPosition().x > RIGHT_BOUND)

@@ -35,20 +35,21 @@ void Car::Initialize()
 	SetTexRect();
 	sprite.setTexture(*texture);
 	sprite.setTextureRect(texRect);
-	sprite.setScale(Vector2f(4, 4));
+	sprite.setScale(Vector2f(2.8f, 2.8f));
 }
 void Car::SetLane()
 {
+	// 9.6 is added in y position to make the car sprite in the middle of the lane
 	if (laneNo %2 == 0)
 	{
 		direction = 1;
-		sprite.setPosition(Vector2f(sprite.getPosition().x - sprite.getGlobalBounds().width, laneNo * LANE_HEIGHT + TOP_BOUND));
+		sprite.setPosition(Vector2f(sprite.getPosition().x - sprite.getGlobalBounds().width, laneNo * LANE_HEIGHT + TOP_BOUND + 9.6f));
 	}
 	else if (laneNo %2 == 1)
 	{
 		direction = -1;
 		sprite.setScale(Vector2f(sprite.getScale().x * -1, sprite.getScale().y));
-		sprite.setPosition(Vector2f(sprite.getPosition().x + WINDOW_WIDTH + sprite.getGlobalBounds().width, laneNo * LANE_HEIGHT + TOP_BOUND));
+		sprite.setPosition(Vector2f(sprite.getPosition().x + WINDOW_WIDTH + sprite.getGlobalBounds().width, laneNo * LANE_HEIGHT + TOP_BOUND + 9.6f));
 	}
 }
 void Car::Move()

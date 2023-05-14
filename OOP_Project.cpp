@@ -23,6 +23,10 @@ int main()
 
     // Gameobjects Initialization
     Frog player(window);
+    Texture backgroundImage;
+    Sprite backgroundSprite;
+    backgroundImage.loadFromFile("Resources/Images/Background.png");
+    backgroundSprite.setTexture(backgroundImage);
     
     // player movement sport
     int KeyCooldown = 5;
@@ -92,6 +96,7 @@ int main()
         window.clear();
 
         // Draw Stuff
+        window.draw(backgroundSprite);
         player.Draw();
         for (int i = 0; i < cars.size(); i++)
         {
