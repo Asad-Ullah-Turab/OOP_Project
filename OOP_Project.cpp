@@ -13,6 +13,8 @@
 using namespace sf;
 using namespace std;
 
+// Function Prototypes
+void StartScreen(RenderWindow& window);
 void StartGame(RenderWindow& window);
 void PlayerMovement(Frog& player, IntRect& texRect, int& keyCooldown, int& keyTimer);
 void CarSpawner(int& carSpawnTimer, int& carSpawnCooldown, vector<Car>& cars);
@@ -27,8 +29,108 @@ int main()
     // creating window
     RenderWindow window(VideoMode(800, 600), "OOP Project", Style::Default);
     window.setFramerateLimit(30);
+    StartScreen(window);
     StartGame(window);
     return 0;
+}
+void StartScreen(RenderWindow& window)
+{
+	// Gameobjects Initialization
+	Texture backgroundImage;
+	Sprite backgroundSprite;
+    if (!backgroundImage.loadFromFile("Resources/Images/StartScreen.png"))
+        cout << "could not load main menu image" << endl;
+	backgroundSprite.setTexture(backgroundImage);
+    // Font initialization
+    Font mainMenuFont;
+    if (!mainMenuFont.loadFromFile("Resources/Fonts/Goldman-Regular.ttf"))
+        cout << "could not load main menu font" << endl;
+    Text startGameText;
+    startGameText.setCharacterSize(50);
+    startGameText.setFillColor(Color::White);
+    startGameText.setFont(mainMenuFont);
+    Text creditsText = startGameText;
+    Text exitText = startGameText;
+
+    // Text initialization
+    startGameText.setString("Start Game");  
+    startGameText.setPosition((WINDOW_WIDTH - startGameText.getGlobalBounds().width)/2, 300);
+    creditsText.setString("Credits");
+    creditsText.setPosition((WINDOW_WIDTH - creditsText.getGlobalBounds().width)/2, 370);
+    exitText.setString("Exit");
+    exitText.setPosition((WINDOW_WIDTH - exitText.getGlobalBounds().width)/2, 440);
+
+
+    int choice = 0;
+    int keyTimer = 0;
+    int keyCooldown = 10;
+    
+	// Main game loop
+    while (window.isOpen())
+    {
+		Event event;
+        while (window.pollEvent(event))
+        {
+			if (event.type == Event::Closed)
+				window.close();
+            if (Keyboard::isKeyPressed(Keyboard::Enter) && choice == 0)
+            {
+				return;
+			}
+            else if (Keyboard::isKeyPressed(Keyboard::Enter) && choice == 1)
+            {
+				// credits
+			}
+            else if (Keyboard::isKeyPressed(Keyboard::Enter) && choice == 2)
+            {
+				window.close();
+			}
+		}
+        // Menu selection
+        if (Keyboard::isKeyPressed(Keyboard::Up) && keyTimer >= keyCooldown)
+        {
+			choice--;
+			if (choice < 0)
+				choice = 2;
+            keyTimer = 0;
+		}
+        else if (Keyboard::isKeyPressed(Keyboard::Down) && keyTimer >= keyCooldown)
+        {
+            choice++;
+            if(choice > 2)
+				choice = 0;
+            keyTimer = 0;
+        }
+        keyTimer++;
+        switch (choice)
+        {
+        case 0:
+            startGameText.setFillColor(Color::Red);
+            creditsText.setFillColor(Color::White);
+            exitText.setFillColor(Color::White);
+            break;
+        case 1:
+            startGameText.setFillColor(Color::White);
+            creditsText.setFillColor(Color::Red);
+            exitText.setFillColor(Color::White);
+            break;
+        case 2:
+            startGameText.setFillColor(Color::White);
+            creditsText.setFillColor(Color::White);
+            exitText.setFillColor(Color::Red);
+            break;
+        }
+
+		// Clear
+		window.clear();
+		// Draw Stuff
+		window.draw(backgroundSprite);
+        window.draw(startGameText);
+        window.draw(creditsText);
+        window.draw(exitText);
+		// Display
+		window.display();
+	}
 }
 void StartGame(RenderWindow& window)
 {
