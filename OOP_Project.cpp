@@ -172,12 +172,14 @@ void StartGame(RenderWindow& window)
         player.texRect = texRect;
         PlayerMovement(player, texRect, keyCooldown, keyTimer);
 
+        bool isOnLog = false;
         // Collison detection with logs
         for (int i = 0; i < logs.size(); i++)
         {
             if (player.getSprite().getGlobalBounds().intersects(logs[i].getSprite().getGlobalBounds()))
             {
                 player.MoveWithLog(logs[i]);
+                isOnLog = true;
             }
         }
         // Collision detection with cars
@@ -185,6 +187,11 @@ void StartGame(RenderWindow& window)
         {
             if (player.getSprite().getGlobalBounds().intersects(cars[i].getSprite().getGlobalBounds()))
                 isGameOver = true;
+        }
+        // Collision detection with water
+        if (player.getSprite().getPosition().y < 280 && !isOnLog)
+        {
+            isGameOver = true;
         }
 
 
