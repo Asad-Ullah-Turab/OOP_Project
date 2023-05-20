@@ -13,6 +13,7 @@
 using namespace sf;
 using namespace std;
 
+void StartGame(RenderWindow& window);
 void PlayerMovement(Frog& player, IntRect& texRect, int& keyCooldown, int& keyTimer);
 void CarSpawner(int& carSpawnTimer, int& carSpawnCooldown, vector<Car>& cars);
 void ObjectRemover(vector<Car>& cars);
@@ -26,14 +27,18 @@ int main()
     // creating window
     RenderWindow window(VideoMode(800, 600), "OOP Project", Style::Default);
     window.setFramerateLimit(30);
-
+    StartGame(window);
+    return 0;
+}
+void StartGame(RenderWindow& window)
+{
     // Gameobjects Initialization
     Frog player(window);
     Texture backgroundImage;
     Sprite backgroundSprite;
     backgroundImage.loadFromFile("Resources/Images/Background.png");
     backgroundSprite.setTexture(backgroundImage);
-    
+
     // player movement support
     IntRect texRect(0, CELL_SIZE, CELL_SIZE, CELL_SIZE);
     int keyCooldown = 5;
@@ -58,7 +63,7 @@ int main()
         }
 
         // Update
-        
+
         // player movement control
         player.texRect = texRect;
         PlayerMovement(player, texRect, keyCooldown, keyTimer);
@@ -68,9 +73,9 @@ int main()
         {
             if (player.getSprite().getGlobalBounds().intersects(logs[i].getSprite().getGlobalBounds()))
             {
-				player.MoveWithLog(logs[i]);
-			}
-		}
+                player.MoveWithLog(logs[i]);
+            }
+        }
         // spawners
         CarSpawner(carSpawnTimer, carSpawnCooldown, cars);
         ObjectRemover(cars);
@@ -97,7 +102,6 @@ int main()
         // Display
         window.display();
     }
-    return 0;
 }
 void PlayerMovement(Frog &player,IntRect &texRect, int& keyCooldown, int& keyTimer)
 {
