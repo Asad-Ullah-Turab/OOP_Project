@@ -14,6 +14,7 @@ private:
 	Texture texture;
 	RenderWindow& window;
 public:
+	bool hasWon;
 	IntRect texRect;
 	Frog(RenderWindow& window);
 	Sprite getSprite(){ return sprite;}

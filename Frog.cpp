@@ -14,6 +14,7 @@ void Frog::Draw()
 }
 void Frog::Reset() 
 {
+	hasWon = false;
 	texture.loadFromFile("Resources/Images/Frog.png");
 	sprite.setTexture(texture);
 	sprite.setTextureRect(texRect);
@@ -51,8 +52,9 @@ void Frog::MoveRight()
 void Frog::Move(int x, int y)
 {
 	sprite.move(Vector2f(x * LANE_HEIGHT, y * LANE_HEIGHT));
-	if (sprite.getPosition().y < 88)
-		sprite.setPosition(sprite.getPosition().x, TOP_BOUND + CELL_SIZE);
+	if (sprite.getPosition().y < 0)
+		//sprite.setPosition(sprite.getPosition().x, TOP_BOUND + CELL_SIZE);
+		hasWon = true;
 	if (sprite.getPosition().y + sprite.getGlobalBounds().height > WINDOW_HEIGHT)
 		sprite.setPosition(sprite.getPosition().x, WINDOW_HEIGHT - sprite.getGlobalBounds().height - CELL_SIZE);
 	if (sprite.getPosition().x < LEFT_BOUND)
