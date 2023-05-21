@@ -270,7 +270,7 @@ void StartGame(RenderWindow& window)
 void PlayerMovement(Frog& player, IntRect& texRect, int& keyCooldown, int& keyTimer, Sound& sound)
 {
 
-    if (Keyboard::isKeyPressed(Keyboard::Up) && keyTimer >= keyCooldown)
+    if ((Keyboard::isKeyPressed(Keyboard::Up) || Keyboard::isKeyPressed(Keyboard::W)) && keyTimer >= keyCooldown)
     {
         sound.play();
         texRect.top = 1 * CELL_SIZE;
@@ -280,7 +280,7 @@ void PlayerMovement(Frog& player, IntRect& texRect, int& keyCooldown, int& keyTi
         player.Move(0, -1);
         keyTimer = 0;
     }
-    else if (Keyboard::isKeyPressed(Keyboard::Down) && keyTimer >= keyCooldown)
+    else if ((Keyboard::isKeyPressed(Keyboard::Down) || Keyboard::isKeyPressed(Keyboard::S)) && keyTimer >= keyCooldown)
     {
         sound.play();
         texRect.top = 3 * CELL_SIZE;
@@ -290,7 +290,7 @@ void PlayerMovement(Frog& player, IntRect& texRect, int& keyCooldown, int& keyTi
         player.Move(0, 1);
         keyTimer = 0;
     }
-    else if (Keyboard::isKeyPressed(Keyboard::Left) && keyTimer >= keyCooldown)
+    else if ((Keyboard::isKeyPressed(Keyboard::Left) || Keyboard::isKeyPressed(Keyboard::A)) && keyTimer >= keyCooldown)
     {
         sound.play();
         texRect.top = 2 * CELL_SIZE;
@@ -300,7 +300,7 @@ void PlayerMovement(Frog& player, IntRect& texRect, int& keyCooldown, int& keyTi
         player.Move(-1, 0);
         keyTimer = 0;
     }
-    else if (Keyboard::isKeyPressed(Keyboard::Right) && keyTimer >= keyCooldown)
+    else if ((Keyboard::isKeyPressed(Keyboard::Right) || Keyboard::isKeyPressed(Keyboard::D)) && keyTimer >= keyCooldown)
     {
         sound.play();
         texRect.top = 0 * CELL_SIZE;
