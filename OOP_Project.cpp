@@ -5,6 +5,7 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 #include <cstdlib>
+#include <Windows.h>
 #include "Frog.h"
 #include "Global.h"
 #include "Car.h"
@@ -16,7 +17,7 @@ using namespace std;
 // Function Prototypes
 void StartScreen(RenderWindow& window);
 void StartGame(RenderWindow& window);
-void PlayerMovement(Frog& player, IntRect& texRect, int& keyCooldown, int& keyTimer);
+void PlayerMovement(Frog& player, IntRect& texRect, int& keyCooldown, int& keyTimer, Sound& sound);
 void CarSpawner(int& carSpawnTimer, int& carSpawnCooldown, vector<Car>& cars);
 void ObjectRemover(vector<Car>& cars);
 void ObjectRemover(vector<Log>& logs);
@@ -67,6 +68,7 @@ void StartScreen(RenderWindow& window)
     SoundBuffer menuMoveSoundBuffer;
     menuMoveSoundBuffer.loadFromFile("Resources/Sounds/gta-menu_2.wav");
     Sound sound;
+
     int choice = 0;
     int keyTimer = 0;
     int keyCooldown = 10;
@@ -83,6 +85,7 @@ void StartScreen(RenderWindow& window)
             {
                 sound.setBuffer(menuSelectSoundBuffer);
                 sound.play();
+                sleep(milliseconds(300));
 				return;
 			}
             else if (Keyboard::isKeyPressed(Keyboard::Enter) && choice == 1)
@@ -95,6 +98,7 @@ void StartScreen(RenderWindow& window)
             {
                 sound.setBuffer(menuSelectSoundBuffer);
                 sound.play();
+                sleep(milliseconds(300));
 				window.close();
 			}
 		}
@@ -171,6 +175,12 @@ void StartGame(RenderWindow& window)
     int logSpawnCooldown = 20;
     int logSpawnTimer = 0;
 
+    // sounds initialization
+    SoundBuffer moveSoundBuffer;
+    moveSoundBuffer.loadFromFile("Resources/Sounds/jump-sound2.wav");
+    Sound sound;
+    sound.setBuffer(moveSoundBuffer);
+
     // Main game loop
     while (window.isOpen())
     {
@@ -185,7 +195,7 @@ void StartGame(RenderWindow& window)
 
         // player movement control
         player.texRect = texRect;
-        PlayerMovement(player, texRect, keyCooldown, keyTimer);
+        PlayerMovement(player, texRect, keyCooldown, keyTimer, sound);
 
         bool isOnLog = false;
         // Collison detection with logs
@@ -257,11 +267,12 @@ void StartGame(RenderWindow& window)
         }
     }
 }
-void PlayerMovement(Frog &player,IntRect &texRect, int& keyCooldown, int& keyTimer)
+void PlayerMovement(Frog& player, IntRect& texRect, int& keyCooldown, int& keyTimer, Sound& sound)
 {
 
     if (Keyboard::isKeyPressed(Keyboard::Up) && keyTimer >= keyCooldown)
     {
+        sound.play();
         texRect.top = 1 * CELL_SIZE;
         texRect.left = 1 * CELL_SIZE;
         player.texRect = texRect;
@@ -271,6 +282,7 @@ void PlayerMovement(Frog &player,IntRect &texRect, int& keyCooldown, int& keyTim
     }
     else if (Keyboard::isKeyPressed(Keyboard::Down) && keyTimer >= keyCooldown)
     {
+        sound.play();
         texRect.top = 3 * CELL_SIZE;
         texRect.left = 1 * CELL_SIZE;
         player.texRect = texRect;
@@ -280,6 +292,7 @@ void PlayerMovement(Frog &player,IntRect &texRect, int& keyCooldown, int& keyTim
     }
     else if (Keyboard::isKeyPressed(Keyboard::Left) && keyTimer >= keyCooldown)
     {
+        sound.play();
         texRect.top = 2 * CELL_SIZE;
         texRect.left = 1 * CELL_SIZE;
         player.texRect = texRect;
@@ -289,6 +302,7 @@ void PlayerMovement(Frog &player,IntRect &texRect, int& keyCooldown, int& keyTim
     }
     else if (Keyboard::isKeyPressed(Keyboard::Right) && keyTimer >= keyCooldown)
     {
+        sound.play();
         texRect.top = 0 * CELL_SIZE;
         texRect.left = 1 * CELL_SIZE;
         player.texRect = texRect;
@@ -371,6 +385,27 @@ void LogSpawner(int& logSpawnTimer, int& logSpawnCooldown, vector<Log>& logs)
 }
 bool GameOver(RenderWindow& window, bool hasWon)
 {
+    // sound initialization
+    SoundBuffer menuSelectSoundBuffer;
+    menuSelectSoundBuffer.loadFromFile("Resources/Sounds/gta-menu.wav");
+    SoundBuffer menuMoveSoundBuffer;
+    menuMoveSoundBuffer.loadFromFile("Resources/Sounds/gta-menu_2.wav");
+    SoundBuffer gameOverSoundBuffer;
+    gameOverSoundBuffer.loadFromFile("Resources/Sounds/game-over.wav");
+    SoundBuffer gameWonSoundBuffer;
+    gameWonSoundBuffer.loadFromFile("Resources/Sounds/game-win.wav");
+    Sound sound;
+
+    if (hasWon) 
+    {
+        sound.setBuffer(gameWonSoundBuffer);
+        sound.play();
+    }
+    else
+    {
+        sound.setBuffer(gameOverSoundBuffer);
+		sound.play();
+    }
     // Game Over background sprite initialization
     Texture backgroundTexture;
     backgroundTexture.loadFromFile("Resources/Images/Background.png");
@@ -395,7 +430,10 @@ bool GameOver(RenderWindow& window, bool hasWon)
     retryText.setFont(gameOverFont);
     Text exitText = retryText;
 
-    retryText.setString("Retry");
+    if (hasWon)
+        retryText.setString("Play Again");
+    else
+        retryText.setString("Retry");
     retryText.setPosition((WINDOW_WIDTH - retryText.getGlobalBounds().width) / 2, 300);
     exitText.setString("Exit");
     exitText.setPosition((WINDOW_WIDTH - exitText.getGlobalBounds().width) / 2, 370);
@@ -424,6 +462,9 @@ bool GameOver(RenderWindow& window, bool hasWon)
                 window.close();
             if (Keyboard::isKeyPressed(Keyboard::Enter))
             {
+                sound.setBuffer(menuSelectSoundBuffer);
+                sound.play();
+                sleep(milliseconds(300));
                 if (choice == 0)
                     return true;
                 if (choice == 1)
@@ -433,6 +474,8 @@ bool GameOver(RenderWindow& window, bool hasWon)
         // Menu selection
         if (Keyboard::isKeyPressed(Keyboard::Up) && keyTimer >= keyCooldown)
         {
+            sound.setBuffer(menuMoveSoundBuffer);
+            sound.play();
             choice--;
             if (choice < 0)
                 choice = 1;
@@ -440,6 +483,8 @@ bool GameOver(RenderWindow& window, bool hasWon)
         }
         else if (Keyboard::isKeyPressed(Keyboard::Down) && keyTimer >= keyCooldown)
         {
+            sound.setBuffer(menuMoveSoundBuffer);
+            sound.play();
             choice++;
             if (choice > 1)
                 choice = 0;

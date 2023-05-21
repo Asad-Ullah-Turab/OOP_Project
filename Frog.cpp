@@ -22,33 +22,6 @@ void Frog::Reset()
 	Vector2f startingPos = Vector2f(WINDOW_WIDTH / 2 - sprite.getGlobalBounds().width / 2, WINDOW_HEIGHT - sprite.getGlobalBounds().height * 1.5);
 	sprite.setPosition(startingPos);
 }
-void Frog::MoveUp()
-{
-	texRect.left = 0;
-	texRect.top = CELL_SIZE;
-	sprite.move(Vector2f(0.f, -LANE_HEIGHT));
-}
-void Frog::MoveDown()
-{
-	texRect.left = 0;
-	texRect.top = 3 * CELL_SIZE;
-	sprite.move(Vector2f(0.f, LANE_HEIGHT));
-	
-}
-void Frog::MoveLeft()
-{
-	texRect.left = 0;
-	texRect.top = 2 * CELL_SIZE;
-	sprite.move(Vector2f(-LANE_HEIGHT, 0));
-	
-}
-void Frog::MoveRight()
-{
-	texRect.left = 0;
-	texRect.top = 0;
-	sprite.move(Vector2f(LANE_HEIGHT, 0));
-	
-}
 void Frog::Move(int x, int y)
 {
 	sprite.move(Vector2f(x * LANE_HEIGHT, y * LANE_HEIGHT));
