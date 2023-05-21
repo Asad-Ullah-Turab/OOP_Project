@@ -61,7 +61,12 @@ void StartScreen(RenderWindow& window)
     exitText.setString("Exit");
     exitText.setPosition((WINDOW_WIDTH - exitText.getGlobalBounds().width)/2, 440);
 
-
+    // sounds initialization
+    SoundBuffer menuSelectSoundBuffer;
+    menuSelectSoundBuffer.loadFromFile("Resources/Sounds/gta-menu.wav");
+    SoundBuffer menuMoveSoundBuffer;
+    menuMoveSoundBuffer.loadFromFile("Resources/Sounds/gta-menu_2.wav");
+    Sound sound;
     int choice = 0;
     int keyTimer = 0;
     int keyCooldown = 10;
@@ -76,20 +81,28 @@ void StartScreen(RenderWindow& window)
 				window.close();
             if (Keyboard::isKeyPressed(Keyboard::Enter) && choice == 0)
             {
+                sound.setBuffer(menuSelectSoundBuffer);
+                sound.play();
 				return;
 			}
             else if (Keyboard::isKeyPressed(Keyboard::Enter) && choice == 1)
             {
+                sound.setBuffer(menuSelectSoundBuffer);
+                sound.play();
 				// credits
 			}
             else if (Keyboard::isKeyPressed(Keyboard::Enter) && choice == 2)
             {
+                sound.setBuffer(menuSelectSoundBuffer);
+                sound.play();
 				window.close();
 			}
 		}
         // Menu selection
         if (Keyboard::isKeyPressed(Keyboard::Up) && keyTimer >= keyCooldown)
         {
+            sound.setBuffer(menuMoveSoundBuffer);
+            sound.play();
 			choice--;
 			if (choice < 0)
 				choice = 2;
@@ -97,6 +110,8 @@ void StartScreen(RenderWindow& window)
 		}
         else if (Keyboard::isKeyPressed(Keyboard::Down) && keyTimer >= keyCooldown)
         {
+            sound.setBuffer(menuMoveSoundBuffer);
+            sound.play();
             choice++;
             if(choice > 2)
 				choice = 0;
